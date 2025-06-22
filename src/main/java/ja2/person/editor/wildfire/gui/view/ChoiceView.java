@@ -5,12 +5,15 @@ import ja2.person.editor.wildfire.data.DataChangeListener;
 import ja2.person.editor.wildfire.data.DataChangeMixin;
 import ja2.person.editor.wildfire.core.structures.Structure;
 
-import java.awt.*;
-import java.awt.event.*;
+import javax.swing.JComboBox;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.Objects;
 import java.util.Vector;
 
-public class ChoiceView extends Choice implements FieldView, ItemListener {
+public class ChoiceView extends JComboBox<String> implements FieldView, ItemListener {
     private final String fieldName;
+
     // Data Change event processing
     private final DataChangeMixin mixin = new DataChangeMixin();
     private boolean suppressEvents = false;
@@ -19,11 +22,8 @@ public class ChoiceView extends Choice implements FieldView, ItemListener {
     private Structure struct;
 
     public ChoiceView(String fieldName, Vector<String> choices) {
-        super();
+        super(choices);
         this.fieldName = fieldName;
-        for (int idx = 0; idx < choices.size(); ++idx) {
-            this.add(choices.elementAt(idx));
-        }
         this.addItemListener(this);
     }
 
@@ -36,7 +36,7 @@ public class ChoiceView extends Choice implements FieldView, ItemListener {
     }
 
     public String getValue() {
-        return this.getSelectedItem();
+        return Objects.requireNonNull(this.getSelectedItem()).toString();
     }
 
     public void setStruct(Structure struct) {
@@ -50,7 +50,7 @@ public class ChoiceView extends Choice implements FieldView, ItemListener {
         }
 
         // Get new value
-        String newValue = this.getSelectedItem();
+        String newValue = Objects.requireNonNull(this.getSelectedItem()).toString();
 
         // Attempt to save value
         this.commit(newValue);
@@ -84,9 +84,9 @@ public class ChoiceView extends Choice implements FieldView, ItemListener {
 
             // Update gui
             if (value != null) {
-                this.select(value);
+                this.setSelectedItem(value);
             } else {
-                this.select(0);
+                this.setSelectedItem(0);
             }
             this.oldValue = value;
 

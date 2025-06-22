@@ -9,7 +9,12 @@ import ja2.person.editor.wildfire.core.structures.item.Item;
 import ja2.person.editor.wildfire.gui.view.ChoiceView;
 import ja2.person.editor.wildfire.gui.view.FieldView;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Label;
 import java.util.Vector;
 import java.util.Enumeration;
 

@@ -9,18 +9,25 @@ import ja2.person.editor.wildfire.core.structures.mercenary.Mercenary;
 import ja2.person.editor.wildfire.gui.view.OptionDialog;
 import ja2.person.editor.wildfire.data.SaveGame;
 import ja2.person.editor.wildfire.gui.panel.StatPanel;
+import ja2.person.editor.wildfire.locale.LocaleManager;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.FileDialog;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.List;
+import java.awt.Menu;
+import java.awt.MenuBar;
+import java.awt.MenuItem;
+import java.awt.Panel;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.TreeSet;
 
 
@@ -47,10 +54,11 @@ public class MainFrame extends Frame implements DataChangeListener {
     private boolean saveGameModified;
     private Actor currentActor;
     private Mercenary currentMerc;
+    private static LocaleManager messages = LocaleManager.getInstance();
     private String currentDir = System.getProperty("user.dir");
 
     public MainFrame() {
-        super("JA2: person editor");
+        super(messages.getString("title"));
 
         // Menu
         this.createMenuBar();
@@ -157,8 +165,16 @@ public class MainFrame extends Frame implements DataChangeListener {
         this.fileMenu.add(this.quitItem);
 
         //Lang menu
-        this.helpMenu = new Menu("Язык");
+        this.langMenu = new Menu("Язык");
         this.menuBar.add(this.langMenu);
+
+        var ruItem = new MenuItem("Ru");
+        ruItem.addActionListener(e -> messages.setLocale(new Locale("ru", "RU")));
+        this.langMenu.add(ruItem);
+
+        var enItem = new MenuItem("En");
+        enItem.addActionListener(e -> messages.setLocale(new Locale("en", "EN")));
+        this.langMenu.add(enItem);
 
         // About menu
         this.helpMenu = new Menu("Помощь");
